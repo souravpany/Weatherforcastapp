@@ -6,5 +6,8 @@
 
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
+    <color name="grey">#999999</color>
+    <color name="black20">#33000000</color>
+    <color name="Black_transparent_black_percent_55">#8C000000</color>
 
 </resources>

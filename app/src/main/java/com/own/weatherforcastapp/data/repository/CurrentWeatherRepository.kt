@@ -9,7 +9,7 @@ class CurrentWeatherRepository @Inject constructor(
     private val networkService: NetworkService
 ) {
 
-    fun doAddPediatricsDetails(
+    fun doFetchCurrentWeatherDetails(
     ): Single<CurrentWeatherResponse>? {
         return networkService.doCurrentWeatherReportCall(
             "1277333"

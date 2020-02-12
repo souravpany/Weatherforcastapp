@@ -12,5 +12,5 @@ public final class BuildConfig {
   public static final String VERSION_NAME = "1.0";
   // Fields from build type: debug
   public static final String API_KEY = "d25d7955621a5ef4727a752cb20f3100";
-  public static final String BASE_URL = "http://api.openweathermap.org/data/2.5/";
+  public static final String BASE_URL = "https://samples.openweathermap.org/data/2.5/";
 }

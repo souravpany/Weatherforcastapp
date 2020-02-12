@@ -2,6 +2,7 @@
 package com.own.weatherforcastapp.di.module;
 
 import com.own.weatherforcastapp.data.repository.CurrentWeatherRepository;
+import com.own.weatherforcastapp.data.repository.ForcasteRepository;
 import com.own.weatherforcastapp.ui.main.MainViewModel;
 import com.own.weatherforcastapp.utils.network.NetworkHelper;
 import com.own.weatherforcastapp.utils.rx.SchedulerProvider;
@@ -21,17 +22,21 @@ public final class ActivityModule_ProvideMainViewModelFactory implements Factory
 
   private final Provider<CurrentWeatherRepository> currentWeatherRepositoryProvider;
 
+  private final Provider<ForcasteRepository> forecastRepositoryProvider;
+
   public ActivityModule_ProvideMainViewModelFactory(
       ActivityModule module,
       Provider<SchedulerProvider> schedulerProvider,
       Provider<CompositeDisposable> compositeDisposableProvider,
       Provider<NetworkHelper> networkHelperProvider,
-      Provider<CurrentWeatherRepository> currentWeatherRepositoryProvider) {
+      Provider<CurrentWeatherRepository> currentWeatherRepositoryProvider,
+      Provider<ForcasteRepository> forecastRepositoryProvider) {
     this.module = module;
     this.schedulerProvider = schedulerProvider;
     this.compositeDisposableProvider = compositeDisposableProvider;
     this.networkHelperProvider = networkHelperProvider;
     this.currentWeatherRepositoryProvider = currentWeatherRepositoryProvider;
+    this.forecastRepositoryProvider = forecastRepositoryProvider;
   }
 
   @Override
@@ -41,7 +46,8 @@ public final class ActivityModule_ProvideMainViewModelFactory implements Factory
         schedulerProvider.get(),
         compositeDisposableProvider.get(),
         networkHelperProvider.get(),
-        currentWeatherRepositoryProvider.get());
+        currentWeatherRepositoryProvider.get(),
+        forecastRepositoryProvider.get());
   }
 
   public static ActivityModule_ProvideMainViewModelFactory create(
@@ -49,13 +55,15 @@ public final class ActivityModule_ProvideMainViewModelFactory implements Factory
       Provider<SchedulerProvider> schedulerProvider,
       Provider<CompositeDisposable> compositeDisposableProvider,
       Provider<NetworkHelper> networkHelperProvider,
-      Provider<CurrentWeatherRepository> currentWeatherRepositoryProvider) {
+      Provider<CurrentWeatherRepository> currentWeatherRepositoryProvider,
+      Provider<ForcasteRepository> forecastRepositoryProvider) {
     return new ActivityModule_ProvideMainViewModelFactory(
         module,
         schedulerProvider,
         compositeDisposableProvider,
         networkHelperProvider,
-        currentWeatherRepositoryProvider);
+        currentWeatherRepositoryProvider,
+        forecastRepositoryProvider);
   }
 
   public static MainViewModel proxyProvideMainViewModel(
@@ -63,10 +71,15 @@ public final class ActivityModule_ProvideMainViewModelFactory implements Factory
       SchedulerProvider schedulerProvider,
       CompositeDisposable compositeDisposable,
       NetworkHelper networkHelper,
-      CurrentWeatherRepository currentWeatherRepository) {
+      CurrentWeatherRepository currentWeatherRepository,
+      ForcasteRepository forecastRepository) {
     return Preconditions.checkNotNull(
         instance.provideMainViewModel(
-            schedulerProvider, compositeDisposable, networkHelper, currentWeatherRepository),
+            schedulerProvider,
+            compositeDisposable,
+            networkHelper,
+            currentWeatherRepository,
+            forecastRepository),
         "Cannot return null from a non-@Nullable @Provides method");
   }
 }

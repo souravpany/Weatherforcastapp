@@ -67,4 +67,16 @@ ext {
     // Dagger
     dagger_version = '2.21'
 
+    //Sliding up
+    slide_up_version = '3.4.0'
+
+    // Tests
+    junit_version = '4.12'
+    espresso_version = '3.1.0'
+    mockito_version = '2.7.1'
+    core_testing_version = '1.1.1'
+    test_runner_version = '1.1.1'
+    test_ext_runner_version = '1.1.0'
+    hamcrest_version = '2.1'
+
 }

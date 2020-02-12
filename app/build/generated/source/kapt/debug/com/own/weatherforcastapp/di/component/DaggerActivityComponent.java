@@ -2,11 +2,16 @@
 package com.own.weatherforcastapp.di.component;
 
 import com.own.weatherforcastapp.data.repository.CurrentWeatherRepository;
+import com.own.weatherforcastapp.data.repository.ForcasteRepository;
 import com.own.weatherforcastapp.di.module.ActivityModule;
+import com.own.weatherforcastapp.di.module.ActivityModule_ProvideForecastAdapterFactory;
+import com.own.weatherforcastapp.di.module.ActivityModule_ProvideLinearLayoutManagerFactory;
 import com.own.weatherforcastapp.di.module.ActivityModule_ProvideMainViewModelFactory;
+import com.own.weatherforcastapp.di.module.ActivityModule_ProvideSlideForecastAdapterFactory;
 import com.own.weatherforcastapp.di.module.ActivityModule_ProvideSplashViewModelFactory;
 import com.own.weatherforcastapp.ui.base.BaseActivity_MembersInjector;
 import com.own.weatherforcastapp.ui.main.MainActivity;
+import com.own.weatherforcastapp.ui.main.MainActivity_MembersInjector;
 import com.own.weatherforcastapp.ui.main.MainViewModel;
 import com.own.weatherforcastapp.ui.splash.SplashActivity;
 import com.own.weatherforcastapp.ui.splash.SplashViewModel;
@@ -48,6 +53,13 @@ public final class DaggerActivityComponent implements ActivityComponent {
             "Cannot return null from a non-@Nullable component method"));
   }
 
+  private ForcasteRepository getForcasteRepository() {
+    return new ForcasteRepository(
+        Preconditions.checkNotNull(
+            applicationComponent.getNetworkService(),
+            "Cannot return null from a non-@Nullable component method"));
+  }
+
   private MainViewModel getMainViewModel() {
     return ActivityModule_ProvideMainViewModelFactory.proxyProvideMainViewModel(
         activityModule,
@@ -60,7 +72,8 @@ public final class DaggerActivityComponent implements ActivityComponent {
         Preconditions.checkNotNull(
             applicationComponent.getNetworkHelper(),
             "Cannot return null from a non-@Nullable component method"),
-        getCurrentWeatherRepository());
+        getCurrentWeatherRepository(),
+        getForcasteRepository());
   }
 
   @Override
@@ -80,6 +93,21 @@ public final class DaggerActivityComponent implements ActivityComponent {
 
   private MainActivity injectMainActivity(MainActivity instance) {
     BaseActivity_MembersInjector.injectViewModel(instance, getMainViewModel());
+    MainActivity_MembersInjector.injectLinearLayoutManager(
+        instance,
+        ActivityModule_ProvideLinearLayoutManagerFactory.proxyProvideLinearLayoutManager(
+            activityModule));
+    MainActivity_MembersInjector.injectLinearExtraLayoutManager(
+        instance,
+        ActivityModule_ProvideLinearLayoutManagerFactory.proxyProvideLinearLayoutManager(
+            activityModule));
+    MainActivity_MembersInjector.injectForecastListAdapter(
+        instance,
+        ActivityModule_ProvideForecastAdapterFactory.proxyProvideForecastAdapter(activityModule));
+    MainActivity_MembersInjector.injectForecastSlideListAdapter(
+        instance,
+        ActivityModule_ProvideSlideForecastAdapterFactory.proxyProvideSlideForecastAdapter(
+            activityModule));
     return instance;
   }
 

@@ -28,6 +28,7 @@ class SplashActivity : BaseActivity<SplashViewModel>() {
         viewModel.launchMain.observe(this, Observer<Event<Map<String, String>>> {
             it.getIfNotHandled()?.run {
                 startActivity(Intent(applicationContext, MainActivity::class.java))
+                finish()
             }
         })
     }

@@ -25,6 +25,5 @@ class SplashViewModel(
         Handler().postDelayed({
             launchMain.postValue(Event(emptyMap()))
         }, splashTimeOut)
-        launchMain.postValue(Event(emptyMap()))
     }
 }

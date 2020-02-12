@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Weatherforcastapp</string>
 
+    <!--internet/server related string-->
     <string name="network_connection_error">Internet connection lost, please retry again</string>
     <string name="could_not_refresh">Could\'t not refresh list</string>
     <string name="network_default_error">Something wrong happened, please retry again</string>
@@ -9,6 +10,9 @@
     </string>
     <string name="server_connection_error">Not able to connect, please retry again</string>
     <string name="permission_denied">Permission Denied</string>
-    <string name="network_login_again">Please log in again</string>
+
+    <!--main screen string-->
+    <string name="sliding_up_please">Slide Up Please</string>
+    <string name="sorry_this_time_we_could_not_find_anythings">:-( Sorry this time we could not find anythings..!!!</string>
 
 </resources>

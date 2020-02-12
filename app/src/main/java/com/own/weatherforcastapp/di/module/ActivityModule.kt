@@ -3,8 +3,11 @@ package com.own.weatherforcastapp.di.module
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.own.weatherforcastapp.data.repository.CurrentWeatherRepository
+import com.own.weatherforcastapp.data.repository.ForcasteRepository
 import com.own.weatherforcastapp.ui.base.BaseActivity
 import com.own.weatherforcastapp.ui.main.MainViewModel
+import com.own.weatherforcastapp.ui.main.adapter.ForecastListAdapter
+import com.own.weatherforcastapp.ui.main.adapter.ForecastSlideListAdapter
 import com.own.weatherforcastapp.ui.splash.SplashViewModel
 import com.own.weatherforcastapp.utils.ViewModelProviderFactory
 import com.own.weatherforcastapp.utils.network.NetworkHelper
@@ -19,6 +22,12 @@ class ActivityModule(private val activity: BaseActivity<*>) {
 
     @Provides
     fun provideLinearLayoutManager(): LinearLayoutManager = LinearLayoutManager(activity)
+
+    @Provides
+    fun provideForecastAdapter() = ForecastListAdapter(activity.lifecycle, ArrayList())
+
+    @Provides
+    fun provideSlideForecastAdapter() = ForecastSlideListAdapter(activity.lifecycle, ArrayList())
 
 
     @Provides
@@ -36,11 +45,15 @@ class ActivityModule(private val activity: BaseActivity<*>) {
     fun provideMainViewModel(
         schedulerProvider: SchedulerProvider,
         compositeDisposable: CompositeDisposable,
-        networkHelper: NetworkHelper,currentWeatherRepository: CurrentWeatherRepository
+        networkHelper: NetworkHelper, currentWeatherRepository: CurrentWeatherRepository
+        , forecastRepository: ForcasteRepository
     ): MainViewModel = ViewModelProviders.of(
         activity, ViewModelProviderFactory(MainViewModel::class) {
-            MainViewModel(schedulerProvider, compositeDisposable, networkHelper, currentWeatherRepository)
-            //this lambda creates and return SplashViewModel
+            MainViewModel(
+                schedulerProvider, compositeDisposable, networkHelper
+                , currentWeatherRepository, forecastRepository, ArrayList()
+            )
+            //this lambda creates and return MainViewModel
         }).get(MainViewModel::class.java)
 
 
